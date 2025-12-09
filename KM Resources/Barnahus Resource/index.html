@@ -1,0 +1,714 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Barnahus Systems Analysis&lt;/title&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Tailwind CSS --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Chart.js --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Plotly.js --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.plot.ly/plotly-2.27.0.min.js"&gt;&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Google Fonts --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Roboto', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f3f4f6;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #1f2937;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Chart Container Guidelines */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.chart-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 600px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-left: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-right: auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 400px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-height: 400px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@media (max-width: 768px) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.chart-container {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>height: 300px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Custom Utilities for Flowcharts (No SVG) */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.flow-line {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #cbd5e1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-grow: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.flow-node {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 120px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 10;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.flow-circle {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 4rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 4rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 0.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Markdown Styling for AI Response */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.prose h3 { font-size: 1.25rem; font-weight: bold; margin-top: 1rem; color: #1e3a8a; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.prose ul { list-style-type: disc; padding-left: 1.5rem; margin-top: 0.5rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.prose li { margin-bottom: 0.25rem; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.prose strong { font-weight: 600; color: #1f2937; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Chosen Palette: Brilliant Blues &amp; Energetic Safety. HEX: #1e3a8a, #06b6d4, #f97316 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Application Structure Plan: Thematic sections flow from Concept -&gt; Adoption Status -&gt; Impact Metrics -&gt; Process -&gt; Collaboration -&gt; Challenges -&gt; Interactive Tools. This prioritizes understanding the model before using the analytical tools. --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Visualization &amp; Content Choices:<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">         </span>1. Concept: Grid Layout (HTML) -&gt; Clear visual separation of pillars.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>2. Adoption: Bar Chart (Chart.js) -&gt; Comparative ranking.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>3. Impact: Grouped Bar (Chart.js) -&gt; Direct A/B comparison.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>4. Process: Flexbox Flow (HTML/CSS) -&gt; Linear journey mapping.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>5. Collaboration: Radar Chart (Chart.js) -&gt; Multivariate alignment.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>6. Barriers: Horizontal Bar (Plotly) -&gt; Hierarchical ranking.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>7. Interactive Tools: AI-powered text generation via Gemini API.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. --&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-gray-100"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Navigation / Header --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;header class="bg-[#1e3a8a] text-white py-12 shadow-lg"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="container mx-auto px-6 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-4xl md:text-6xl font-bold mb-4"&gt;The Barnahus Model&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-xl md:text-2xl text-[#06b6d4] font-light tracking-wide"&gt;A Systems Analysis of Collaborative Justice in Europe&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="mt-6 max-w-3xl mx-auto text-gray-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>A visual mapping of Europe's interdisciplinary response to child abuse. This analysis aggregates data from the Barnahus network to evaluate the shift from fragmented services to a unified, child-centered ecosystem.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Main Content Grid --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;main class="container mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-12"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- SECTION 1: The Core Concept (The Four Rooms) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="col-span-1 md:col-span-2 bg-white rounded-lg shadow-md p-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="mb-6 border-b border-gray-200 pb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl font-bold text-[#1e3a8a]"&gt;The "Four Rooms" Architecture&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="mt-2 text-gray-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>The Barnahus system is not just a building; it is a legal and operational framework defined by four distinct pillars. Unlike traditional systems where a child travels between agencies, these four rooms exist under one roof.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Criminal Investigation --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-blue-50 border-l-4 border-[#1e3a8a] p-6 rounded shadow-sm hover:shadow-lg transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="text-4xl mb-4"&gt;⚖️&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-xl font-bold text-[#1e3a8a] mb-2"&gt;Criminal Investigation&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-sm text-gray-700"&gt;Forensic interviews conducted by specialized police in a child-friendly environment, often monitored by a judge via video link.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Child Protection --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-cyan-50 border-l-4 border-[#06b6d4] p-6 rounded shadow-sm hover:shadow-lg transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="text-4xl mb-4"&gt;🛡️&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-xl font-bold text-[#06b6d4] mb-2"&gt;Child Protection&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-sm text-gray-700"&gt;Social services assess immediate safety needs and long-term welfare planning concurrently with the investigation.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Physical Health --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-orange-50 border-l-4 border-[#f97316] p-6 rounded shadow-sm hover:shadow-lg transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="text-4xl mb-4"&gt;🏥&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-xl font-bold text-[#f97316] mb-2"&gt;Medical Assessment&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-sm text-gray-700"&gt;Forensic medical examinations to secure evidence and ensure the physical well-being of the child.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Mental Health --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-indigo-50 border-l-4 border-indigo-500 p-6 rounded shadow-sm hover:shadow-lg transition"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="text-4xl mb-4"&gt;🧠&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-xl font-bold text-indigo-700 mb-2"&gt;Therapeutic Recovery&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-sm text-gray-700"&gt;Crisis support and short/long-term psychological treatment initiated immediately following disclosure.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- SECTION 2: Adoption Map --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="col-span-1 bg-white rounded-lg shadow-md p-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 class="text-2xl font-bold text-[#1e3a8a] mb-4"&gt;Network Maturity &amp; Adoption&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-600 mb-6 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>While originating in Iceland (1998), the model has seen varied adoption rates. The Nordic countries represent "Mature" integrated systems, while Central and Southern Europe are rapidly moving from "Planning" to "Operational" phases.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="chart-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;canvas id="adoptionChart"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- SECTION 3: Impact Analysis --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="col-span-1 bg-white rounded-lg shadow-md p-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 class="text-2xl font-bold text-[#1e3a8a] mb-4"&gt;System Efficiency &amp; Impact&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-600 mb-6 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>A systems analysis reveals that the Barnahus model drastically reduces the "justice gap." By centralizing services, we observe a reduction in re-traumatization indicators (number of interviews) and expedited legal timelines.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="chart-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;canvas id="impactChart"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- SECTION 4: Process Flow (The Child's Journey) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="col-span-1 md:col-span-2 bg-[#1e3a8a] rounded-lg shadow-md p-8 text-white"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2 class="text-3xl font-bold mb-6 text-[#06b6d4]"&gt;The Child's Journey: Process Re-engineering&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="mb-10 max-w-4xl opacity-90"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>In a traditional system, a child might visit 4 different locations and recount their trauma 7+ times. In the Barnahus workflow, the system revolves around the child.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- CSS/HTML Flowchart (No SVG/Mermaid) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="hidden md:flex flex-row justify-between items-start w-full"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flow-node"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flow-circle bg-gray-500 text-white"&gt;1&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 class="font-bold mt-2"&gt;Referral&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-xs mt-1 text-gray-300"&gt;Police or Social Services alert&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flow-line"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flow-node"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flow-circle bg-[#f97316]"&gt;2&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 class="font-bold mt-2 text-[#f97316]"&gt;Intake&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-xs mt-1 text-gray-300"&gt;Multi-agency planning meeting&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flow-line"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flow-node"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flow-circle bg-[#06b6d4]"&gt;3&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 class="font-bold mt-2 text-[#06b6d4]"&gt;Interview&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-xs mt-1 text-gray-300"&gt;Forensic interview (AV recorded)&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flow-line"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flow-node"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flow-circle bg-[#06b6d4]"&gt;4&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 class="font-bold mt-2 text-[#06b6d4]"&gt;Medical&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-xs mt-1 text-gray-300"&gt;Exam in adjacent room&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flow-line"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flow-node"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flow-circle bg-green-500"&gt;5&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 class="font-bold mt-2 text-green-400"&gt;Review&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-xs mt-1 text-gray-300"&gt;Case assessment &amp; Therapy start&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Mobile Vertical List for Flow --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="md:hidden space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="bg-gray-500 h-8 w-8 rounded-full flex items-center justify-center font-bold mr-4"&gt;1&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div&gt;Referral &amp; Intake&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="bg-[#f97316] h-8 w-8 rounded-full flex items-center justify-center font-bold mr-4"&gt;2&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div&gt;Planning &amp; Preparation&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="bg-[#06b6d4] h-8 w-8 rounded-full flex items-center justify-center font-bold mr-4"&gt;3&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div&gt;Forensic Interview &amp; Medical&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="bg-green-500 h-8 w-8 rounded-full flex items-center justify-center font-bold mr-4"&gt;4&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div&gt;Therapeutic Follow-up&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- SECTION 5: Stakeholder Collaboration --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="col-span-1 bg-white rounded-lg shadow-md p-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 class="text-2xl font-bold text-[#1e3a8a] mb-4"&gt;Interdisciplinary Integration&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-600 mb-6 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Successful implementation requires breaking silos. This radar chart illustrates the necessary alignment levels across agencies in a fully operational Barnahus compared to a fragmented system.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="chart-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;canvas id="stakeholderChart"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- SECTION 6: Implementation Barriers --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="col-span-1 bg-white rounded-lg shadow-md p-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3 class="text-2xl font-bold text-[#1e3a8a] mb-4"&gt;Systemic Barriers to Entry&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-600 mb-6 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Despite the clear benefits, adoption across the EU faces structural hurdles. Legislative incompatibility (e.g., admissibility of video evidence) remains the primary bottleneck for new countries.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Plotly Container --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="barriersPlot" class="chart-container"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- SECTION 7: Country Progress Tracker --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="col-span-1 md:col-span-1 bg-white rounded-lg shadow-lg border-t-4 border-[#06b6d4] p-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="text-3xl mr-3"&gt;🌍&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-2xl font-bold text-[#1e3a8a]"&gt;National Progress Tracker&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-sm text-gray-600 mb-6"&gt;Select a country to view a real-time status report on its Barnahus implementation journey.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="relative mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;select id="countrySelect" onchange="fetchCountryProgress()" class="block appearance-none w-full bg-gray-50 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-[#06b6d4]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="" disabled selected&gt;Select a Country...&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Iceland"&gt;Iceland&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Sweden"&gt;Sweden&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Norway"&gt;Norway&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Denmark"&gt;Denmark&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Slovenia"&gt;Slovenia&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Cyprus"&gt;Cyprus&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Ireland"&gt;Ireland&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Estonia"&gt;Estonia&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Spain"&gt;Spain&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Poland"&gt;Poland&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Hungary"&gt;Hungary&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Germany"&gt;Germany&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="France"&gt;France&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Italy"&gt;Italy&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="Croatia"&gt;Croatia&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"&gt;&lt;path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Tracker Output --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="trackerLoading" class="hidden text-center py-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="inline-block animate-spin rounded-full h-6 w-6 border-4 border-[#06b6d4] border-t-transparent"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-xs text-gray-500 mt-2"&gt;Retrieving national data...&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="trackerOutput" class="hidden bg-blue-50 rounded p-4 border border-blue-100 prose prose-sm max-w-none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Content injected here --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- SECTION 8: AI Gap Analyzer --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="col-span-1 md:col-span-1 bg-gradient-to-br from-blue-50 to-white rounded-lg shadow-lg border border-blue-100 p-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex items-center mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="text-3xl mr-4"&gt;✨&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h2 class="text-2xl font-bold text-[#1e3a8a]"&gt;Interactive Policy Planner&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-sm text-gray-600"&gt;Select your current system capabilities below to generate an AI powered roadmap.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="space-y-4 mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="block text-xs font-bold uppercase text-gray-500 mb-1"&gt;Interview Setting&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;select id="inputInterview" class="w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-blue-500 focus:ring-blue-500 bg-white text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;option value="Standard police station interview room"&gt;Standard Police Station&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;option value="Neutral venue (ad-hoc)"&gt;Neutral Venue (Ad-hoc)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;option value="Child-friendly room with AV recording"&gt;Child-Friendly Room (Recorded)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="block text-xs font-bold uppercase text-gray-500 mb-1"&gt;Medical Services&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;select id="inputMedical" class="w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-blue-500 focus:ring-blue-500 bg-white text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;option value="Hospital referral (separate location)"&gt;Hospital Referral (Off-site)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;option value="On-call doctor visits station"&gt;On-call Doctor (Visits Station)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;option value="Dedicated clinic under same roof"&gt;Dedicated Clinic (On-site)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="block text-xs font-bold uppercase text-gray-500 mb-1"&gt;Agency Collaboration&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;select id="inputCollab" class="w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-blue-500 focus:ring-blue-500 bg-white text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;option value="Ad-hoc communication"&gt;Ad-hoc Communication&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;option value="Formal interagency protocol"&gt;Formal Interagency Protocol&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;option value="Co-located multidisciplinary team"&gt;Co-located Team&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="generateBtn" onclick="generateRoadmap()" class="w-full bg-[#f97316] hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-md flex justify-center items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span&gt;Analyze Gaps &amp; Generate Roadmap&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Loading State --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="loadingIndicator" class="hidden mt-6 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#06b6d4] border-t-transparent"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-gray-500 mt-2 text-sm"&gt;Consulting AI...&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- AI Output --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="aiOutput" class="hidden mt-8 bg-white border border-gray-200 rounded-lg p-6 prose max-w-none text-gray-800 shadow-inner text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Content injected here --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Footer --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;footer class="bg-gray-800 text-white py-8 mt-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="container mx-auto px-6 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-sm opacity-75"&gt;Analysis generated for Barnahus Network Systems Review.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-xs opacity-50 mt-2"&gt;Data sources aggregated from Barnahus Network, EU Fundamental Rights Agency, and public health reports.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/footer&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- JAVASCRIPT LOGIC --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- GEMINI API INTEGRATION ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const apiKey = "AIzaSyBgH7Zz2tbupKwPXlUH_ATMkmzrkHOvIT8"; // &lt;--- PASTE YOUR API KEY HERE INSIDE THE QUOTES</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- NEW TOOL: Country Progress Tracker ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function fetchCountryProgress() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const country = document.getElementById('countrySelect').value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const output = document.getElementById('trackerOutput');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const loading = document.getElementById('trackerLoading');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!country) return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// UI State</p>
+<p class="p1"><span class="Apple-converted-space">            </span>loading.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>output.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>output.innerHTML = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const prompt = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Provide a concise progress report on the implementation of the Barnahus (Europe's interdisciplinary) model in ${country}.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Format the response in HTML (no markdown blocks, use &lt;strong&gt;, &lt;p&gt;, &lt;ul&gt;).</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Include:</p>
+<p class="p1"><span class="Apple-converted-space">                </span>1. &lt;strong&gt;Status Tier:&lt;/strong&gt; (Mature, Operational, Launching/Pilot, or Planning).</p>
+<p class="p1"><span class="Apple-converted-space">                </span>2. &lt;strong&gt;Key Achievement:&lt;/strong&gt; One specific win or facility name if known.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>3. &lt;strong&gt;Progress Summary:&lt;/strong&gt; 2-3 sentences on the current state of adoption.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Keep it under 100 words.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const response = await callGeminiWithBackoff(prompt);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>output.innerHTML = response;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>output.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>output.innerHTML = `&lt;p class="text-red-500"&gt;Error retrieving data: ${error.message}&lt;/p&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>output.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} finally {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>loading.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- EXISTING TOOL: Policy Planner ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function generateRoadmap() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const interview = document.getElementById('inputInterview').value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const medical = document.getElementById('inputMedical').value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const collab = document.getElementById('inputCollab').value;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const btn = document.getElementById('generateBtn');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const loading = document.getElementById('loadingIndicator');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const output = document.getElementById('aiOutput');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// UI State: Loading</p>
+<p class="p1"><span class="Apple-converted-space">            </span>btn.disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>btn.classList.add('opacity-50');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>loading.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>output.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>output.innerHTML = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const prompt = `</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Act as an advisor for the Barnahus Network (European Barnahus standard).<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>A stakeholder is analyzing their current child protection system status:</p>
+<p class="p1"><span class="Apple-converted-space">                </span>1. Interview Setting: ${interview}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>2. Medical Services: ${medical}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>3. Agency Collaboration: ${collab}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>Compare this status to the Barnahus "Four Rooms" quality standard.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Produce a concise report in HTML format (use &lt;h3&gt; for headers, &lt;ul&gt; for lists, &lt;p&gt; for text, no markdown code blocks) covering:</p>
+<p class="p1"><span class="Apple-converted-space">                </span>1. &lt;h3&gt;Gap Analysis&lt;/h3&gt;: What are the biggest risks in their current setup regarding re-traumatization and evidence integrity?</p>
+<p class="p1"><span class="Apple-converted-space">                </span>2. &lt;h3&gt;3-Step Roadmap&lt;/h3&gt;: Three specific, actionable steps to move closer to a certified Barnahus model based on their specific inputs.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>3. &lt;h3&gt;Projected Impact&lt;/h3&gt;: One sentence on how these changes would improve the "Justice Gap".</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>Keep the tone professional, encouraging, and systems-focused. Keep it under 300 words.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const response = await callGeminiWithBackoff(prompt);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>output.innerHTML = response;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>output.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>output.innerHTML = `&lt;p class="text-red-500"&gt;Error generating roadmap: ${error.message}. Please try again.&lt;/p&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>output.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} finally {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>btn.disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>btn.classList.remove('opacity-50');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>loading.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function callGeminiWithBackoff(prompt, retries = 5) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const delays = [1000, 2000, 4000, 8000, 16000];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (let i = 0; i &lt; retries; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const response = await fetch(url, {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>method: 'POST',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>headers: { 'Content-Type': 'application/json' },</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>body: JSON.stringify({</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>contents: [{ parts: [{ text: prompt }] }]</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>})</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const data = await response.json();</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>return data.candidates?.[0]?.content?.parts?.[0]?.text || "No analysis available.";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (i === retries - 1) throw error;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>await new Promise(resolve =&gt; setTimeout(resolve, delays[i]));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- UTILITY: Label Wrapping Helper ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function splitLabel(label, maxLength = 16) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (label.length &lt;= maxLength) return label;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const words = label.split(' ');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const lines = [];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let currentLine = words[0];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>for (let i = 1; i &lt; words.length; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if ((currentLine + " " + words[i]).length &lt;= maxLength) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>currentLine += " " + words[i];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>lines.push(currentLine);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>currentLine = words[i];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>lines.push(currentLine);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return lines;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- CHART 1: Adoption Map (Chart.js) ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const adoptionCtx = document.getElementById('adoptionChart').getContext('2d');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>new Chart(adoptionCtx, {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>type: 'bar',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>data: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>labels: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Nordic Countries (Mature)'),<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Western Europe (Operational)'),<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Eastern Europe (Emerging)'),<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Southern Europe (Planning)')</p>
+<p class="p1"><span class="Apple-converted-space">                </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>datasets: [{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>label: 'Adoption Density Index (0-100)',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>data: [95, 75, 45, 30],</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>backgroundColor: [</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>'#1e3a8a', // Dark Blue</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>'#06b6d4', // Cyan</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>'#f97316', // Orange</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>'#cbd5e1'<span class="Apple-converted-space">  </span>// Grey</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>borderRadius: 6,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>options: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>indexAxis: 'y',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>responsive: true,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>maintainAspectRatio: false,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>plugins: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>tooltip: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>callbacks: {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>title: function(tooltipItems) {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>const item = tooltipItems[0];</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>let label = item.chart.data.labels[item.dataIndex];</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>if (Array.isArray(label)) return label.join(' ');</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>return label;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>legend: { display: false }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>scales: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>x: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>beginAtZero: true,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>max: 100,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>grid: { color: '#e5e7eb' }</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>y: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>grid: { display: false }</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- CHART 2: Impact Analysis (Chart.js Grouped Bar) ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const impactCtx = document.getElementById('impactChart').getContext('2d');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>new Chart(impactCtx, {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>type: 'bar',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>data: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>labels: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Avg Interviews per Child'),<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Months to Trial'),<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Agencies Involved (Visits)')</p>
+<p class="p1"><span class="Apple-converted-space">                </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>datasets: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>label: 'Traditional System',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>data: [7.5, 18, 4],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>backgroundColor: '#94a3b8',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>label: 'Barnahus Model',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>data: [1.5, 6, 1],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>backgroundColor: '#f97316',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>options: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>responsive: true,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>maintainAspectRatio: false,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>plugins: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>tooltip: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>callbacks: {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>title: function(tooltipItems) {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>const item = tooltipItems[0];</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>let label = item.chart.data.labels[item.dataIndex];</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>if (Array.isArray(label)) return label.join(' ');</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>return label;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>scales: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>y: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>beginAtZero: true,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>grid: { color: '#e5e7eb' }</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- CHART 3: Stakeholder Collaboration (Chart.js Radar) ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const stakeholderCtx = document.getElementById('stakeholderChart').getContext('2d');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>new Chart(stakeholderCtx, {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>type: 'radar',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>data: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>labels: [</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Police Investigation'),<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Social Services'),<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Medical Forensics'),<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Psychological Support'),<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>splitLabel('Prosecution/Legal')</p>
+<p class="p1"><span class="Apple-converted-space">                </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>datasets: [{</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>label: 'Integration Score',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>data: [90, 85, 80, 88, 75],</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>fill: true,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>backgroundColor: 'rgba(6, 182, 212, 0.2)',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>borderColor: '#06b6d4',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>pointBackgroundColor: '#1e3a8a',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>pointBorderColor: '#fff',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>pointHoverBackgroundColor: '#fff',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>pointHoverBorderColor: '#1e3a8a'</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}]</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>options: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>responsive: true,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>maintainAspectRatio: false,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>plugins: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>tooltip: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>callbacks: {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>title: function(tooltipItems) {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>const item = tooltipItems[0];</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>let label = item.chart.data.labels[item.dataIndex];</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>if (Array.isArray(label)) return label.join(' ');</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>return label;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>scales: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>r: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>angleLines: { color: '#e5e7eb' },</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>grid: { color: '#e5e7eb' },</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>suggestedMin: 0,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>suggestedMax: 100</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- CHART 4: Barriers to Entry (Plotly.js) ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const barrierData = [{</p>
+<p class="p1"><span class="Apple-converted-space">            </span>type: 'bar',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>x: [85, 65, 55, 40],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>y: [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>'Legal/Admissibility Laws',<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>'Sustainable Funding',<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>'Interagency Training',<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>'Facility Infrastructure'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>orientation: 'h',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>marker: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>color: ['#1e3a8a', '#1e3a8a', '#06b6d4', '#06b6d4'],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>opacity: 0.9,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const barrierLayout = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: { t: 20, b: 30, l: 150, r: 20 },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>xaxis: {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>title: 'Severity of Barrier (%)',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>showgrid: true,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gridcolor: '#e5e7eb'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>yaxis: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>autorange: 'reversed'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>paper_bgcolor: 'rgba(0,0,0,0)',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>plot_bgcolor: 'rgba(0,0,0,0)',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>family: 'Roboto, sans-serif'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const config = { responsive: true, displayModeBar: false };<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>Plotly.newPlot('barriersPlot', barrierData, barrierLayout, config);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
